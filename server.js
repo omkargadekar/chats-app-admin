@@ -54,7 +54,7 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 8000;
 
 const server = app.listen(
-  PORT,
+  8000,
   console.log(`Server running on PORT ${PORT}...`.yellow.bold)
 );
 
