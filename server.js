@@ -10,6 +10,7 @@ const newUserRoutes = require("./routes/newUser.routes");
 const taskRoutes = require("./routes/task.routes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const path = require("path");
+const cors = require("cors");
 
 dotenv.config();
 connectDB();
@@ -57,6 +58,19 @@ const io = require("socket.io")(server, {
     // credentials: true,
   },
 });
+
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:3030",
+      "*",
+      "https://chatsapp-nw05.onrender.com",
+      "http://ec2-52-206-76-43.compute-1.amazonaws.com:8000",
+    ], // Add other domains as needed
+    credentials: true,
+  })
+);
 
 io.on("connection", (socket) => {
   console.log("Connected to socket.io");
