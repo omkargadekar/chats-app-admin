@@ -86,4 +86,5 @@ module.exports = {
   getSingleUser,
   updateUser,
   deleteUser,
+  loginUser,
 };

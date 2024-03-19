@@ -5,13 +5,15 @@ const {
   getSingleUser,
   updateUser,
   deleteUser,
+  loginUser,
 } = require("../controllers/newUser.controller.js");
 const { protect } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
 // Auth routes
-router.route("/register").post(protect, registerUser);
+router.route("/register").post(registerUser);
+router.route("/login").post(loginUser);
 
 // User CRUD routes
 router.route("/all-users").get(protect, getAllUsers);
