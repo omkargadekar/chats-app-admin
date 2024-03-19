@@ -4,18 +4,27 @@ const newUser = require("../models/newUser.model.js");
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    // Find the user by email
+
+    // Check if the user exists
     const user = await newUser.findOne({ email });
+
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    // Compare the provided password with the hashed password stored in the database
+
+    // Compare passwords
     const isPasswordValid = await bcrypt.compare(password, user.password);
+
     if (!isPasswordValid) {
       return res.status(401).json({ message: "Invalid password" });
     }
-    // If the password is valid, return the user
-    res.status(200).json(user);
+
+    // Generate and send JWT token for authentication
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h", // Token expiration time
+    });
+
+    res.status(200).json({ token });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
