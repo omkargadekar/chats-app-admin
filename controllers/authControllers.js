@@ -56,10 +56,27 @@ const loginUser = async (req, res) => {
       { expiresIn: "1h" }
     );
 
-    res.status(200).json({ user, accessToken });
+    user.accessToken = accessToken;
+
+    res.status(200).json({ user });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+};
+
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await AuthModel.find();
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = {
+  registerUser,
+  loginUser,
+  getAllUsers,
 };
 
 module.exports = {
