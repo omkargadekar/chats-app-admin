@@ -6,11 +6,12 @@ const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const eventRoutes = require("./routes/event.routes");
 const licenseRoutes = require("./routes/license.routes");
-const newUserRoutes = require("./routes/newUser.routes");
+
 const taskRoutes = require("./routes/task.routes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const path = require("path");
 const cors = require("cors");
+const authRoutes = require("./routes/authRoutes");
 
 dotenv.config();
 connectDB();
@@ -39,8 +40,9 @@ app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/licenses", licenseRoutes);
-app.use("/api/newUsers", newUserRoutes);
+
 app.use("/api/tasks", taskRoutes);
+app.use("/api/auth", authRoutes);
 
 // --------------------------deployment------------------------------
 
