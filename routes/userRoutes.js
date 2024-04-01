@@ -1,15 +1,28 @@
-const express = require("express");
-const {
+import { Router } from "express";
+import {
   registerUser,
-  authUser,
-  allUsers,
-} = require("../controllers/userControllers");
-const { protect } = require("../middleware/authMiddleware");
+  loginUser,
+  refreshAccessToken,
+  logoutUser,
+} from "../controllers/user.controller.js";
+import { upload } from "../middlewares/multer.middleware.js";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 
-const router = express.Router();
+const router = Router();
 
-router.route("/").get(protect, allUsers);
-router.route("/").post(registerUser);
-router.post("/login", authUser);
+router.route("/register").post(
+  upload.fields([
+    {
+      name: "avatar",
+      maxCount: 1,
+    },
+  ]),
+  registerUser
+);
 
-module.exports = router;
+router.route("/login").post(loginUser);
+router.route("/refresh-token").post(refreshAccessToken);
+router.use(verifyJWT);
+router.route("/logout").post(logoutUser);
+
+export default router;
